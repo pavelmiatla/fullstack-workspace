@@ -1,0 +1,40 @@
+@startuml C4_Local_Deployment_Diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+title "Wheel Of Fortune" Web App - Local Deployment
+
+' Define the Person (User)
+Person(player, "WoF Player")
+
+' Define the Internet as a global boundary for external access (empty, just conceptual)
+Deployment_Node(internet, "The Internet", "Public Network") {
+}
+
+' Local Development Environment
+Deployment_Node(localEnv, "Host-Machine", "Windows/Mac/Linux") {
+
+    Deployment_Node(router, "Home Router", "Network Device", $sprite="router")
+    
+    Deployment_Node(devMachine, "Dev-Machine", "Ubuntu VirtualBox VM") {
+
+        Deployment_Node(xampp, "XAMPP Stack", "Apache Webserver, MariaDB Server") {
+            Container(localFrontend, "WoF Frontend", "HTML5, CSS, JavaScript", "Runs in browser on dev machine")
+            Container(localBackend, "WoF Backend", "Node.js, Express", "Runs locally via Node.js")
+            ContainerDb(localMariaDB, "Filesystem or MariaDB", "MariaDB", "Storage for game data")
+        }
+    }
+}
+
+' Local Access
+Rel(player, localFrontend, "Accesses", "HTTP (dev direct access)")
+Rel(localFrontend, localBackend, "Communicates via REST API", "HTTP (localhost)")
+Rel(localBackend, localMariaDB, "Connects to", "JDBC/SQL | File I/O")
+
+' Internet Access (to Local Deployment)
+Rel(player, internet, "Accesses (from outside)", "HTTP/HTTPS")
+Rel(internet, router, "Routes traffic to", "Public IP:8080")
+Rel(router, devMachine, "Passes through", "Port Forwarding 8080")
+Rel(devMachine, xampp, "Passes through", "Port Forwarding 80")
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+title TLS Encryption Flow – Example: https://wof.tecsa-acd.com/api/wheel
+
+actor Browser as Client
+participant "Internet\n(Encrypted channel)" as Net
+participant "Nginx (wof.tecsa-acd.com)\nTLS + Reverse Proxy" as Nginx
+participant "Node.js Backend\nlocalhost:3000" as Backend
+database "Database" as DB
+
+== Request Encrypted ==
+Client -> Net : GET /api/wheel\n(encrypted with TLS session key)
+Net -> Nginx : Encrypted Data
+Nginx -> Nginx : Decrypt TLS
+
+== Backend Processing ==
+Nginx -> Backend : Forward /api/wheel (HTTP plain inside server)
+Backend -> DB : Query state
+DB --> Backend : { wins:5, losses:3, lastResult:"$5000" }
+Backend --> Nginx : JSON Response (HTTP plain inside server)
+
+== Response Encrypted ==
+Nginx -> Nginx : Encrypt TLS
+Nginx -> Net : { wins:5, losses:3, lastResult:"$5000" } (encrypted)
+Net -> Client : Encrypted Data
+Client -> Client : Decrypt TLS\nDisplay in DevTools Network tab
+
+@enduml

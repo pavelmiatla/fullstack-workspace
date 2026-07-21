@@ -1,0 +1,36 @@
+@startuml
+title App Performance: Latency, Capacity & Load
+
+skinparam rectangle {
+  BackgroundColor #eef
+  BorderColor #447
+  RoundCorner 15
+}
+skinparam arrow {
+  Thickness 1.2
+}
+
+/' --- Components --- '/
+actor Client
+rectangle "Server" as Server
+
+/' --- Request–Response Flow --- '/
+Client -> Server : Request
+Server --> Client : Response (Time = Latency)
+
+/' --- Metrics & Load Types --- '/
+rectangle "Performance Metrics" as Metrics {
+  rectangle "Latency (Response Time)\n Under specific concurrency\n Time per Task\n- e.g. P90/P95 ≤ 300 ms" as Latency
+  rectangle "Capacity (Throughput & Resource)\n Under specific concurrency\n n Tasks per Time & Res usage\n- e.g. 500 RPS\n- e.g. CPU < 30%, Mem < 40%" as Capacity
+}
+
+rectangle "Load Scenarios" as Load {
+  rectangle "Normal Load\n(~n RPS)" as Normal
+  rectangle "Stress / Peak Load\n(~Max sustainable RPS)" as Stress
+}
+
+/' --- Relationships --- '/
+Latency -[dotted]-> Normal : "Validate latency"
+Capacity -[dotted]-> Stress : "Validate capacity"
+
+@enduml

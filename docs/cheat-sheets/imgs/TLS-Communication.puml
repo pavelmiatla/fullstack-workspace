@@ -1,0 +1,26 @@
+@startuml
+title TLS Certificate Issuance & Handshake Flow
+
+actor Webserver
+participant "Certificate Authority" as CA
+actor Browser
+
+== Certificate Issuance - Once ==
+Webserver -> Webserver : Generate Private Key + CSR\n(Certificate Signing Request with Public Key)
+Webserver -> CA : Send CSR
+CA -> CA : Validate domain ownership\n(DNS / HTTP / Email)
+CA --> Webserver : Signed Certificate\n(signed with CA private key)
+
+== TLS Handshake - Per Session ==
+Browser -> Webserver : BrowserHello\n(Supported Ciphers, Random)
+Webserver -> Browser : WebserverHello\n(Chosen Cipher, Random)
+Webserver -> Browser : Certificate (Signed by CA)
+Browser -> Browser : Validate Certificate\n(using CA Public Key in Trust Store)
+Browser -> Webserver : Session Key (encrypted with Webserver Public Key)
+Webserver --> Browser : Encrypted Session Established
+
+== Secure Communication ==
+Browser -> Webserver : HTTPS Request (Encrypted)
+Webserver --> Browser : HTTPS Response (Encrypted)
+
+@enduml

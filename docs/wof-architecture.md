@@ -2,6 +2,8 @@
 
 # 2. Architecture Constraints {#section-architecture-constraints}
 
+## Stakeholders
+
 # 3. Context and Scope {#section-context-and-scope}
 
 # 4. Solution Strategy {#section-solution-strategy}
