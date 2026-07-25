@@ -23,6 +23,7 @@ XAMPP was released on September 2002 by the non-profit project **Apache Friends*
 
 ### 🛠 XAMPP Key Components
 <img src="../cheat-sheets/imgs/xampp-components.png" width="550" height="400" alt="XAMPP Key Components">
+
 - **Apache** – Web server
     - Default Port: 80 (HTTP) / 443 (HTTPS)
     - Browser Access: http://localhost/project-name

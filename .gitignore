@@ -1,0 +1,4 @@
+node_modules
+
+./backend/lucky_wheel_state.json
+./backend/readme.md

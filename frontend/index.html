@@ -68,7 +68,7 @@
         font-weight: bolder;
       }
 
-      #stats-display {
+      #stats-message {
         color: #212121;
         margin-bottom: 16px;
       }
@@ -80,8 +80,72 @@
     <div id="game-area">
       <button id="spin-button">Spin a wheel</button>
       <div id="result-message">Dummy result</div>
-      <div id="stats-display">Dummy stats</div>
+      <div id="stats-message">Dummy stats</div>
       <button id="reset-button">Reset statistics</button>
     </div>
+
+    <script>
+      const API_URL = "http://localhost:3000/api/wheel";
+      const spinBtn = document.getElementById("spin-button");
+      const resetBtn = document.getElementById("reset-button");
+      const resultMessage = document.getElementById("result-message");
+      const statsMessage = document.getElementById("stats-message");
+
+      async function fetchGameState() {
+        try {
+          const result = await fetch(API_URL);
+          const gameState = await result.json();
+          updateGameState(gameState);
+        } catch (error) {
+          resultMessage.innerText = `Cannot update the game state. Error on the BE side`;
+          statsMessage.innerText = `Cannot update the game state. Error on the BE side`;
+        }
+      }
+
+      /**
+       * Update FE state with data retrieved from BE
+       * @param  {gameState {wins: number; losses: number; lastResult: string}}
+       * */
+      function updateGameState(gameState) {
+        if (gameState.lastResult === null) {
+          resultMessage.innerText = `Make your new spin!`;
+          statsMessage.innerText = `Wins: ${gameState.wins}| Losses: ${gameState.losses}`;
+        } else if (gameState.lastResult === "Blank") {
+          resultMessage.innerText = `Unlucky! Try again!`;
+          statsMessage.innerText = `Wins: ${gameState.wins}| Losses: ${gameState.losses}`;
+        } else {
+          resultMessage.innerText = `Result: ${gameState.lastResult}`;
+          statsMessage.innerText = `Wins: ${gameState.wins}| Losses: ${gameState.losses}`;
+        }
+      }
+
+      async function spinWheel() {
+        try {
+          const result = await fetch(`${API_URL}/spin`, { method: "POST" });
+          const gameState = await result.json();
+          updateGameState(gameState);
+        } catch (error) {
+          resultMessage.innerText = `Cannot spin a wheel. Error on the BE side`;
+          statsMessage.innerText = `Cannot spin a wheel. Error on the BE side`;
+        }
+      }
+
+      async function resetStats() {
+        try {
+          statsMessage.innerHTML = "";
+          const result = await fetch(`${API_URL}/reset`, { method: "POST" });
+          const gameState = await result.json();
+          updateGameState(gameState);
+        } catch (error) {
+          resultMessage.innerText = `Cannot reset statistics. Error on the BE side`;
+          statsMessage.innerText = `Cannot reset statistics. Error on the BE side`;
+        }
+      }
+
+      spinBtn.addEventListener("click", spinWheel);
+      resetBtn.addEventListener("click", resetStats);
+
+      fetchGameState();
+    </script>
   </body>
 </html>

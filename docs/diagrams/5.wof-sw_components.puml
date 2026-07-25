@@ -27,5 +27,5 @@ Rel(backend, mariadb, "Reads from and writes to", "SQL/JDBC")
 Rel(backend, filesystem, "Reads from and writes to", "File I/O")
 
 ' Optional: Add a legend for clarity
-ESHOW_LEGND()
+SHOW_LEGEND()
 @enduml

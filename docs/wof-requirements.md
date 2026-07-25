@@ -65,12 +65,13 @@
 * **NR.4.4 Internet Accessibility:** The application must be accessible via the internet at a dedicated domain name.
 
 **5. Efficiency:**
-✅* **NR.5.1 Response Time:** The backend shall respond to spin and reset requests within a 100-500ms under normal load (10 concurrent users), excluding the frontend's artificial delay.
-✅* **NR.5.2 Resource Usage:** The backend shall not exceed an average CPU usage of 15% and memory usage of 300 MB during normal operation, as measured over 10mins under typical load (10 concurrent users).
+* ✅ **NR.5.1 Response Time:** The backend shall respond to spin and reset requests within a 100-500ms under normal load (10 concurrent users), excluding the frontend's artificial delay.
+
+* ✅ **NR.5.2 Resource Usage:** The backend shall not exceed an average CPU usage of 15% and memory usage of 300 MB during normal operation, as measured over 10mins under typical load (10 concurrent users).
 
 **6. Security:**
-✅* **NR.6.1 Data Confidentiality (HTTPS):** The system shall ensure that all data transmitted between the client (frontend) and the server (backend) is encrypted using HTTPS 
-✅* **NR.6.2 Data Integrity (HTTPS):** The system shall ensure that all data transmitted between the client and the server cannot be altered without detection during transit.
-✅* **NR.6.3 Authentication (Server Certificate):** The system shall present a valid SSL/TLS certificate to the client, allowing the client to verify the identity of the server.
+* ✅ **NR.6.1 Data Confidentiality (HTTPS):** The system shall ensure that all data transmitted between the client (frontend) and the server (backend) is encrypted using HTTPS 
+* ✅ **NR.6.2 Data Integrity (HTTPS):** The system shall ensure that all data transmitted between the client and the server cannot be altered without detection during transit.
+* ✅ **NR.6.3 Authentication (Server Certificate):** The system shall present a valid SSL/TLS certificate to the client, allowing the client to verify the identity of the server.
 
 ---

@@ -18,5 +18,4 @@ Rel(user, wof_app, "Plays game, spins wheel, resets stats")
 Rel(wof_app, local, "Deployed to")
 Rel(wof_app, vps, "Deployed to")
 Rel(wof_app, domain, "Accessible securely via")
-
 @enduml
