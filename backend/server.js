@@ -3,7 +3,7 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const { log } = require("console");
-const API_URL = "/api/wheel";
+const API_URL = "/api";
 const PORT = 3000;
 const GS_FILE = path.join(__dirname, "lucky_wheel_state.json");
 
