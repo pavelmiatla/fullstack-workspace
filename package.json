@@ -23,6 +23,14 @@
   "homepage": "https://github.com/pavelmiatla/fullstack-workspace#readme",
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1"
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mariadb": "^3.5.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.0.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0"
   }
 }

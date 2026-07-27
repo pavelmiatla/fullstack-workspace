@@ -1,11 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
-const { log } = require("console");
+const repo = require("./repository");
 const API_URL = "/api";
 const PORT = 3000;
-const GS_FILE = path.join(__dirname, "lucky_wheel_state.json");
 
 const initialGameState = {
   wins: 0,
@@ -13,30 +10,8 @@ const initialGameState = {
   lastResult: null,
 };
 
-function saveGameState(gs) {
-  fs.writeFileSync(GS_FILE, JSON.stringify(gs, null, 2), "utf-8");
-}
-
-function readGameState() {
-  if (!fs.existsSync(GS_FILE)) {
-    saveGameState(initialGameState);
-  }
-  const data = fs.readFileSync(GS_FILE, "utf-8");
-  const GameStateParsed = JSON.parse(data);
-  return GameStateParsed;
-}
-
 const app = express();
 app.use(cors());
-
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
-
-app.get(API_URL, (req, res) => {
-  const gs = readGameState();
-  res.json(gs);
-});
 
 const wheelSectors = [
   { value: "Blank", weight: 50 },
@@ -58,8 +33,13 @@ function spinWheel() {
   }
 }
 
-app.post(`${API_URL}/spin`, (req, res) => {
-  const gameState = readGameState();
+app.get(API_URL, async (req, res) => {
+  const gs = await repo.readGameState();
+  res.json(gs);
+});
+
+app.post(`${API_URL}/spin`, async (req, res) => {
+  const gameState = await repo.readGameState();
   const spinResult = spinWheel();
   if (spinResult === "Blank") {
     gameState.losses++;
@@ -67,16 +47,16 @@ app.post(`${API_URL}/spin`, (req, res) => {
     gameState.wins++;
   }
   gameState.lastResult = spinResult;
-  saveGameState(gameState);
+  repo.saveGameState(gameState);
   res.json(gameState);
 });
 
-app.post(`${API_URL}/reset`, (req, res) => {
-  const gameStateReseted = { ...initialGameState };
-  saveGameState(gameStateReseted);
+app.post(`${API_URL}/reset`, async (req, res) => {
+  const gameStateReseted = await repo.resetGameState();
   res.json(gameStateReseted);
 });
 
-app.listen(3000, () => {
+app.listen(3000, async () => {
   console.log(`Server is running on port: ${PORT}`);
+  await repo.readGameState();
 });
