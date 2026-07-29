@@ -25,7 +25,7 @@ const initialGameState = {
 };
 
 async function readGameState() {
-  console.log("repo readGameState is called");
+  console.log("MARIA DB repo readGameState is called");
   let connection;
   try {
     connection = await pool.getConnection();
@@ -51,7 +51,7 @@ async function readGameState() {
 }
 
 async function saveGameState(gs) {
-  console.log("repo saveGameState is called");
+  console.log("MARIA DB repo saveGameState is called");
   let connection;
   try {
     connection = await pool.getConnection();
@@ -67,6 +67,7 @@ async function saveGameState(gs) {
 }
 
 async function resetGameState() {
+  console.log("MARIA DB repo resetGameState is called");
   let connection;
   try {
     connection = await pool.getConnection();
