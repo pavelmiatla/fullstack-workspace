@@ -2,10 +2,18 @@ const fs = require("fs");
 const path = require("path");
 const mariaDB = require("mariadb");
 
+require("dotenv").config({
+  path: require("path").resolve(__dirname, "..", ".env"),
+});
+
+const REPO_TYPE = process.env.DB_TYPE || "filesystem";
+const DB_USER = process.env.DB_USER || "root";
+const DB_PASS = process.env.DB_PASS;
+
 let pool = mariaDB.createPool({
   host: "localhost",
-  user: "root",
-  password: "",
+  user: DB_USER,
+  password: DB_PASS,
   database: "lucky_wheel_db",
   connectionLimit: 5,
 });
