@@ -47,7 +47,7 @@ app.post(`${API_URL}/spin`, async (req, res) => {
     gameState.wins++;
   }
   gameState.lastResult = spinResult;
-  repo.saveGameState(gameState);
+  await repo.saveGameState(gameState);
   res.json(gameState);
 });
 

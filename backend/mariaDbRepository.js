@@ -40,11 +40,11 @@ async function readGameState() {
         lastResult: rows[0].last_result,
       };
     } else {
-      return initialGameState;
+      return { ...initialGameState };
     }
   } catch (error) {
     console.error("Cannot read a game state", error);
-    return initialGameState;
+    return { ...initialGameState };
   } finally {
     if (connection) connection.end();
   }
@@ -72,10 +72,10 @@ async function resetGameState() {
   try {
     connection = await pool.getConnection();
     await connection.query("TRUNCATE TABLE game_state");
-    return initialGameState;
+    return { ...initialGameState };
   } catch (error) {
     console.error("Cannot reset a game state", error);
-    return initialGameState;
+    return { ...initialGameState };
   } finally {
     if (connection) connection.end();
   }
